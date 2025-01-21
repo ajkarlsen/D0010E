@@ -3,30 +3,28 @@ import java.util.Scanner;
 public class LifeLength {
     public static void main(String[] args) {
         while (true) {
+            int a0;
+            Scanner scan = new Scanner(System.in);
+            try {
+                System.out.print("Skriv in ett heltal större än 0: ");
+                a0 = scan.nextInt();
+                System.out.println("Du skrev in " + a0);
+                if (a0 == 0) {
+                    scan.close();
+                    break;
+                } else {
+                    System.out.println(iterLifeLength(a0));
+                    System.out.println("f1(" + a0 + ") = " + f1(a0));
+                    System.out.println("f2(" + a0 + ") = " + f2(a0));
+                    System.out.println("f4(" + a0 + ") = " + f4(a0));
+                    System.out.println("f8(" + a0 + ") = " + f8(a0));
+                    System.out.println("f16(" + a0 + ") = " + f16(a0));
+                    System.out.println("f32(" + a0 + ") = " + f32(a0));
+                }
+            } catch (Exception e) {
+                System.out.println("Fel: Ej ett heltal > 0");
+            }
 
-       // while (true) {
-            //int a0;
-            //Scanner scan = new Scanner(System.in);
-            //try {
-              //  System.out.print("Skriv in ett heltal större än 0: ");
-                //a0 = scan.nextInt();
-                //System.out.println("Du skrev in " + a0);
-                //if (a0 == 0) {
-                  //  scan.close();
-                    //break;
-                //} else {
-                  //  System.out.println(iterLifeLength(a0));
-                    //System.out.println("f1(" + a0 + ") = " + f1(a0));
-                    //System.out.println("f2(" + a0 + ") = " + f2(a0));
-                    //System.out.println("f4(" + a0 + ") = " + f4(a0));
-                    //System.out.println("f8(" + a0 + ") = " + f8(a0));
-                    //System.out.println("f16(" + a0 + ") = " + f16(a0));
-                    //System.out.println("f32(" + a0 + ") = " + f32(a0));
-              //  }
-          //  } catch (Exception e) {
-            //    System.out.println("Fel: Ej ett heltal > 0");
-          //  }
-            
         }
 
     }
@@ -38,7 +36,7 @@ public class LifeLength {
         } return c;
     }
     public static int iterateF(int a0, int n) {
-        for (int i = 1; i <= n; i++) {
+        for (int i = 0; i <= n; i++) {
             a0 = f1(a0);
         }
         return a0;
