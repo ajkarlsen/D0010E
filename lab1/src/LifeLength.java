@@ -52,14 +52,60 @@ public class LifeLength {
         }
     } */
 
+    /*public static void main(String[] args) {
+
+    Task 5, vi ser att l(x) = l(f(x)) + 1 för x!=1, för
+    x = 1 får vi bara l(x) = 0
+
+        for (int a0 = 1; a0 <= 42; a0++) {
+            //System.out.println(intsToString(a0, iterLifeLength(a0)));
+            System.out.println(a0 + ", " + iterLifeLength(a0) + ", " + iterLifeLength(f1(a0)));
+        }
+    } */
+
     public static void main(String[] args) {
         for (int a0 = 1; a0 <= 15; a0++) {
-            System.out.println(intsToString(a0, iterLifeLength(a0)));
+            System.out.println(a0 + ", " + iterLifeLength(a0) + ", " + recLifeLength(a0));
+        }
+    }
+
+    public static int task12(int a0) {
+        while (true) {
+            Scanner scan = new Scanner(System.in);
+            try {
+                System.out.print("Skriv in ett heltal större än 0: ");
+                a0 = scan.nextInt();
+                System.out.println("Du skrev in " + a0);
+                if (a0 == 0) {
+                    scan.close();
+                    break;
+                } else {
+                    System.out.println(iterLifeLength(a0));
+                    System.out.println("f1(" + a0 + ") = " + f1(a0));
+                    System.out.println("f2(" + a0 + ") = " + f2(a0));
+                    System.out.println("f4(" + a0 + ") = " + f4(a0));
+                    System.out.println("f8(" + a0 + ") = " + f8(a0));
+                    System.out.println("f16(" + a0 + ") = " + f16(a0));
+                    System.out.println("f32(" + a0 + ") = " + f32(a0));
+                }
+            } catch (Exception e) {
+                System.out.println("Fel: Ej ett heltal > 0");
+            }
+
+        }
+    }
+
+
+    public static int recLifeLength(int a0) {
+        if (a0 == 1) {
+            return 0;
+        } else {
+            return iterLifeLength((f1(a0))) + 1;
         }
     }
 
     public static int iterLifeLength(int a0) {
-        int c = 1;
+        int c = 0;
         while (a0 != 1) {
             a0 = f1(a0);
             c++;
