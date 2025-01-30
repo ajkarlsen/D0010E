@@ -20,9 +20,14 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
 	public static void main(String[] args) {
 		MyArrayList<String> strlist = new MyArrayList<String>(4);
 		// testa metoder härifrån
-		strlist.add(1, "A");
+		strlist.add(0, "A");
 		strlist.add(1, "B");
+		strlist.add(2, "C");
+		strlist.add(3, "D");
+		strlist.add(4, "C");
+		strlist.add(5, "F");
 		strlist.MyArrayList();
+
 	}
 
     	// ---------------------------------------------------------------
@@ -38,6 +43,9 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
 		System.out.println(array[1]);
 		System.out.println(array[2]);
 		System.out.println(array[3]);
+		System.out.println(array[4]);
+		System.out.println(array[5]);
+
 	}
 
 	// -- 1 --
@@ -104,10 +112,16 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
 	public void add(int index, E element) {
 		this.ensureCapacity(this.size() + 1);
 
+		if (index < 0 || index > this.size()) {
+			throw new IndexOutOfBoundsException();
+		}
+
 		if (array[index] == null) {
 			array[index] = element;
 		} else {
-			array[index+1] = array[index];
+			for (int i = this.size(); i > index; i--) {
+				array[i] = array[i-1];
+			}
 		}
 		array[index] = element;
 	}
@@ -115,7 +129,8 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
 	@Override
 	public boolean add(E e) {
 		/* ska implementeras */
-		return false; /* bara med för att Eclipse inte ska klaga */
+		this.add(size(), e);
+		return true; /* bara med för att Eclipse inte ska klaga */
 	}
 
         // -- 4 --
@@ -123,13 +138,21 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
 	@Override
 	public E get(int index) {
 		/* ska implementeras */
-		return null; /* bara med för att Eclipse inte ska klaga */
+		if ((index < 0 || index >= size())) {
+			throw new IndexOutOfBoundsException();
+		}
+		return this.array[index]; /* bara med för att Eclipse inte ska klaga */
 	}
 
 	@Override
 	public E set(int index, E element) {
 		/* ska implementeras */
-		return null; /* bara med för att Eclipse inte ska klaga */
+		if ((index < 0 || index >= size())) {
+			throw new IndexOutOfBoundsException();
+		}
+		E old = this.array[index];
+		array[index] = element;
+		return old; /* bara med för att Eclipse inte ska klaga */
 	}
 
 	// -- 5 --
@@ -137,11 +160,26 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
 	@Override
 	public E remove(int index) {
 		/* ska implementeras */
-		return null; /* bara med för att Eclipse inte ska klaga */
+		if ((index < 0 || index >= size())) {
+			throw new IndexOutOfBoundsException();
+		}
+		E old = this.array[index];
+		for (int i = index; i < size() - 1; i++) {
+			array[i] = array[i+1];
+		}
+		array[size()-1] = null;
+		return old; /* bara med för att Eclipse inte ska klaga */
 	}
 
 	protected void removeRange(int fromIndex, int toIndex) {
 		/* ska implementeras */
+		if ((fromIndex < 0 || fromIndex >= size() || toIndex > size() || toIndex < fromIndex)) {
+			throw new IndexOutOfBoundsException();
+		}
+		for (int i = fromIndex; i < toIndex; i++) {
+			this.remove(fromIndex);
+		}
+
 	}
 
 	// -- 6 --
@@ -149,19 +187,34 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
 	@Override
 	public int indexOf(Object o) {
 		/* ska implementeras */
+		for (int i = 0; i < this.size(); i++) {
+			if (array[i] == o) {
+				return i;
+			}
+		}
 		return -1; /* bara med för att Eclipse inte ska klaga */
 	}
 
 	@Override
 	public boolean remove(Object o) {
 		/* ska implementeras */
-		return false; /* bara med för att Eclipse inte ska klaga */
+		if (this.indexOf(o) == -1) {
+			return false;
+		} else {
+			this.remove(this.indexOf(o));
+			return true; /* bara med för att Eclipse inte ska klaga */
+		}
+
 	}
     
 	@Override
 	public boolean contains(Object o) {
 		/* ska implementeras */
-		return false; /* bara med för att Eclipse inte ska klaga */
+		if (this.indexOf(o) == -1) {
+			return false;
+		} else {
+			return true; /* bara med för att Eclipse inte ska klaga */
+		}
 	}
 
 	// -- 7 --
@@ -169,12 +222,18 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
 	@Override
 	public Object clone() {
 		/* ska implementeras */
-		return null; /* bara med för att Eclipse inte ska klaga */
+		E[] klon = (E[]) new Object[this.size()];
+		for (int i = 0; i < this.size(); i++) {
+			klon[i] = array[i];
+		}
+
+		return klon; /* bara med för att Eclipse inte ska klaga */
 	}
 
 	@Override
 	public Object[] toArray() {
 		/* ska implementeras */
+
 		return null; /* bara med för att Eclipse inte ska klaga */
 	}
 
