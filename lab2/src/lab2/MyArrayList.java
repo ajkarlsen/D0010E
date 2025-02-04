@@ -24,7 +24,7 @@ public class MyArrayList<E> implements Serializable, Cloneable, Iterable<E>,
 		MyArrayList<String> test = new MyArrayList<>();
 
 	}
-	
+
 
 	public MyArrayList(int initialCapacity) {
 		/* ska implementeras */
