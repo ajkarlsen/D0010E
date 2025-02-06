@@ -19,7 +19,7 @@ public class Raise {
     //Ser ut exakt som N(k) = (log2(k) + 1) ceiling
 
     public static void main(String[] args) {
-/*
+
         System.out.println("Använder recRaiseOne:");
         for (int i = 1; i <= 15; i++) {
             System.out.println("1.5^" + i + "=" + recRaiseOne(1.5, i) + ", Antal rekursioner = " + c1);
@@ -29,8 +29,8 @@ public class Raise {
         for (int i = 1; i <= 15; i++) {
             System.out.println("1.5^" + i + "=" + recRaiseHalf(1.5, i) + ", Antal rekursioner = " + c2);
             c2 = 0;
-        } */
-
+        }
+/*
         for (int i = 0; i <= 10000; i++) {
             c1 = 0;
             recRaiseOne(1.0005, i);
@@ -40,7 +40,7 @@ public class Raise {
             c2 = 0;
             recRaiseHalf(1.0005, i);
             System.out.println(i + ":" + c2);
-        }
+        }*/
     }
 
 
