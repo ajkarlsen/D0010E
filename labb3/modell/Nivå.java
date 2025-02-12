@@ -35,14 +35,14 @@ public class Nivå extends Observable {
 	// Målarduk för att veta vilka rum som finns på nivån och som ska ritas ut.
 
 
-	public ArrayList<Rum> getRoom() {
+	public ArrayList<Rum> getAllRoom() {
 		return levelRoom;
 	}
 
 	// TODO Skriv en instansmetod som returnerar en referens till det rum som
 	// användaren "är i".
 
-	public Rum getRef() {
+	public Rum getRoom() {
 		return userRoom;
 	}
 

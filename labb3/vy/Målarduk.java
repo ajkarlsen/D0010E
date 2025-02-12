@@ -25,12 +25,14 @@ public class Målarduk extends JPanel {
 	}
 
 	// TODO: Lätt till @Override på metoden nedan.
+	@Override
 	protected void paintComponent(Graphics g) {
 		// TODO Lägg till ett anrop till paintComponent i omedelbara
 		// överklassen (JPanel). Skicka med g som argument.
-
+		super.paintComponent(g);
 		// TODO: Lägg till kod som ritar ut en grafisk vy av enNivå.
 		//
+		ritaRum(g, enNivå.getRoom());
 		// För att underlätta finns hjälpmetoder som ska skrivas klara. Studera
 		// noga bilderna i labbinstruktionen för att få fram formlerna för
 		// bas- och pivotpunkternas koordinater. Använd ritmetoderna i klassen
@@ -38,7 +40,8 @@ public class Målarduk extends JPanel {
 	}
 
 	private void ritaRum(Graphics g, Rum ettRum) {
-
+		g.setColor(ettRum.getGolvfärg());
+		g.fillRect(ettRum.getPunkt().x(), ettRum.getPunkt().y(), ettRum.getBredd(), ettRum.getHöjd());
 	}
 
 	private void ritaGångarFrånRum(Graphics g, Rum ettRum) {
