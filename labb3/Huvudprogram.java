@@ -41,7 +41,7 @@ public class Huvudprogram {
 		Rum.kopplaIhop(rum.get(7), ÖSTER, rum.get(6), VÄSTER);
 
 		// TODO: Skapa en nivå med argumenten rum.get(3) och rum.
-
+		Nivå level = new Nivå(rum.get(3), rum);
 		// TODO: Skapa en instans av klassen GUI och skicka med nivån ovan som
 		// argument. Man kan ha en referensvariabel som refererar till
 		// GUI-instansen men det är är inte nödvändigt.

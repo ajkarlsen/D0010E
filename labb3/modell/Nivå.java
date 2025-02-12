@@ -4,26 +4,48 @@ import java.util.ArrayList;
 import java.util.Observable;
 
 // TODO: Gör så att klassen Nivå ärver Observable i paketet java.util. 
-public class Nivå  {
+public class Nivå extends Observable {
 
 	// TODO: Lägg till tillståndsvariabler för att hålla reda på nivåns rum och
 	// i vilket rum som användaren "är".
+	private ArrayList<Rum> levelRoom = new ArrayList<>();
+	private Rum userRoom;
+
 
 	public Nivå(Rum startrum, ArrayList<Rum> rum) {
 		// TODO: Kopiera in startrum och rum in i tillståndsvariablerna.
+		this.userRoom = startrum;
+		this.levelRoom = rum;
 
 		// TODO: Kontrollera att startrum finns med i rum. Om inte, kasta
 		// undantag med lämpligt felmeddelande.
 
+		if (!levelRoom.contains(startrum)) {
+			throw new RuntimeException("Inget rum boss");
+		}
+
 		// TODO: Kontrollera att inga rum överlappar varandra. Om det ändå är
 		// fallet, kasta undantag med lämpligt felmeddelande.
+
+
+
 	}
 
 	// TODO: Skriv en instansmetod som returnerar alla rummen. Denna behöver
 	// Målarduk för att veta vilka rum som finns på nivån och som ska ritas ut.
 
+
+	public ArrayList<Rum> getRoom() {
+		return levelRoom;
+	}
+
 	// TODO Skriv en instansmetod som returnerar en referens till det rum som
 	// användaren "är i".
+
+	public Rum getRef() {
+		return userRoom;
+	}
+
 
 	// TODO: Skriv klar instansmetoden hoppaÅt nedan så att den ändrar det rum
 	// som användaren "är i" om det är möjligt genom att följa en gång från
