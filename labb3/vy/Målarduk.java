@@ -7,10 +7,13 @@ import labb3.modell.Nivå;
 import labb3.modell.Rum;
 import labb3.modell.Väderstreck;
 import labb3.verktyg.Punkt;
-import static labb3.GlobalaKonstanter.MARKFÄRG;
+
 import javax.swing.*;
 
-// TODO: Ändra nästa rad så att en Målarduk "är-en" JPanel. 
+import static labb3.GlobalaKonstanter.*;
+import static labb3.verktyg.Grafik.drawThickLine;
+
+// TODO: Ändra nästa rad så att en Målarduk "är-en" JPanel.
 public class Målarduk extends JPanel {
 
 	private final Nivå enNivå;
@@ -32,7 +35,10 @@ public class Målarduk extends JPanel {
 		super.paintComponent(g);
 		// TODO: Lägg till kod som ritar ut en grafisk vy av enNivå.
 		//
-		ritaRum(g, enNivå.getRoom());
+		for (int i = 0; i <= enNivå.getAllRoom().size()-1; i++) {
+			ritaRum(g, enNivå.getAllRoom().get(i));
+			ritaGångarFrånRum(g, enNivå.getAllRoom().get(i));
+		}
 		// För att underlätta finns hjälpmetoder som ska skrivas klara. Studera
 		// noga bilderna i labbinstruktionen för att få fram formlerna för
 		// bas- och pivotpunkternas koordinater. Använd ritmetoderna i klassen
@@ -42,14 +48,34 @@ public class Målarduk extends JPanel {
 	private void ritaRum(Graphics g, Rum ettRum) {
 		g.setColor(ettRum.getGolvfärg());
 		g.fillRect(ettRum.getPunkt().x(), ettRum.getPunkt().y(), ettRum.getBredd(), ettRum.getHöjd());
+
+		Punkt NV = new Punkt(ettRum.getPunkt().x() - HALV_VÄGGTJOCKLEK, ettRum.getPunkt().y() - HALV_VÄGGTJOCKLEK);
+		Punkt NO = new Punkt(ettRum.getPunkt().x() + ettRum.getBredd() + HALV_VÄGGTJOCKLEK, ettRum.getPunkt().y() - HALV_VÄGGTJOCKLEK);
+		Punkt SV = new Punkt(ettRum.getPunkt().x() - HALV_VÄGGTJOCKLEK, ettRum.getPunkt().y()+ ettRum.getHöjd() + HALV_VÄGGTJOCKLEK);
+		Punkt SO = new Punkt(ettRum.getPunkt().x() + ettRum.getBredd() + HALV_VÄGGTJOCKLEK, ettRum.getPunkt().y() + ettRum.getHöjd() + HALV_VÄGGTJOCKLEK);
+
+		drawThickLine(g, NV, NO, VÄGGTJOCKLEK, VÄGGFÄRG);
+		drawThickLine(g, NV, SV, VÄGGTJOCKLEK, VÄGGFÄRG);
+		drawThickLine(g, SV, SO, VÄGGTJOCKLEK, VÄGGFÄRG);
+		drawThickLine(g, NO, SO, VÄGGTJOCKLEK, VÄGGFÄRG);
+
 	}
 
 	private void ritaGångarFrånRum(Graphics g, Rum ettRum) {
+		g.setColor(GÅNGFÄRG);
+
 
 	}
 
 	private Punkt baspunkt(Rum ettRum, Väderstreck enRiktning) {
-		return null; /* endast här för att Eclipse inte ska klaga */
+		switch (enRiktning) {
+			case NORR: return new Punkt(ettRum.getPunkt().x() + ettRum.getBredd()/2, ettRum.getPunkt().y());
+			case ÖSTER: return new Punkt(ettRum.getPunkt().x() + ettRum.getBredd(), ettRum.getPunkt().y() + ettRum.getHöjd()/2);
+			case SÖDER: return new Punkt(ettRum.getPunkt().x() + ettRum.getBredd()/2, ettRum.getPunkt().y() + ettRum.getHöjd());
+			case VÄSTER: return new Punkt(ettRum.getPunkt().x(), ettRum.getPunkt().y()+ettRum.getHöjd()/2);
+			default: return null;
+		}
+
 	}
 
 	private Punkt pivotpunkt(Rum ettRum, Väderstreck enRiktning) {

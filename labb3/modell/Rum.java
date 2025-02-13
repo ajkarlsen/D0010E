@@ -3,6 +3,8 @@ package labb3.modell;
 import labb3.verktyg.Punkt;
 
 import java.awt.Color;
+import static labb3.GlobalaKonstanter.ANTAL_VÄDERSTRECK;
+
 
 public class Rum {
 
@@ -11,6 +13,8 @@ public class Rum {
 	private int bredd;
 	private int höjd;
 	private Punkt punkt;
+
+	private Gång[] gångar = new Gång[ANTAL_VÄDERSTRECK];
 
 	public Rum(Color golvfärg, int bredd, int höjd, int övX, int övY) {
 		// TODO: Kopiera parametrarna in i tillståndsvariablerna. (övX,övY) är
@@ -44,6 +48,11 @@ public class Rum {
 	// TODO: Skriv instansmetoden
 	//
 	// finnsUtgångÅt(Väderstreck väderstreck)
+	public boolean finnsUtgångÅt(Väderstreck väderstreck) {
+		if (gångar[väderstreck.index()] == null) {
+			return false;
+		} return true;
+	}
 	//
 	// som ska kontrollera om det från ett rum finns en utgång åt visst
 	// väderstreck.
@@ -51,6 +60,13 @@ public class Rum {
 	// TODO: Skriv instansmetoden
 	//
 	// Gång gångenÅt(Väderstreck väderstreck) som
+	public Gång gångenÅt(Väderstreck väderstreck) {
+		if (finnsUtgångÅt(väderstreck)) {
+			return gångar[väderstreck.index()];
+		} else {
+			throw new IllegalArgumentException("Inga gångar boss");
+		}
+	}
 	//
 	// returnerar den gång som leder från ett rum i riktning väderstreck. Om
 	// sådan gång saknas ska ett undantag kastas med lämpligt felmeddelande.
@@ -59,7 +75,12 @@ public class Rum {
 
 	public static void kopplaIhop(Rum från, Väderstreck riktningUtUrFrån,
 			Rum till, Väderstreck riktningInITill) {
+		Gång gång = new Gång(från, riktningUtUrFrån, till, riktningInITill);
+		från.gångar[riktningUtUrFrån.index()] = gång;
+		till.gångar[riktningInITill.index()] = gång;
+
 	}
+
 
 	public static void main(String[] args) {
 		Rum nyrumtest2 = new Rum(Color.BLUE, 100,75, 100, 100);

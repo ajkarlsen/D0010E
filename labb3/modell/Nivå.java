@@ -8,7 +8,7 @@ public class Nivå extends Observable {
 
 	// TODO: Lägg till tillståndsvariabler för att hålla reda på nivåns rum och
 	// i vilket rum som användaren "är".
-	private ArrayList<Rum> levelRoom = new ArrayList<>();
+	private ArrayList<Rum> levelRoom;
 	private Rum userRoom;
 
 
