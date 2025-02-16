@@ -49,41 +49,52 @@ public class Målarduk extends JPanel {
 		g.setColor(ettRum.getGolvfärg());
 		g.fillRect(ettRum.getPunkt().x(), ettRum.getPunkt().y(), ettRum.getBredd(), ettRum.getHöjd());
 
-		Punkt NV = new Punkt(ettRum.getPunkt().x() - HALV_VÄGGTJOCKLEK, ettRum.getPunkt().y() - HALV_VÄGGTJOCKLEK);
-		Punkt NO = new Punkt(ettRum.getPunkt().x() + ettRum.getBredd() + HALV_VÄGGTJOCKLEK, ettRum.getPunkt().y() - HALV_VÄGGTJOCKLEK);
-		Punkt SV = new Punkt(ettRum.getPunkt().x() - HALV_VÄGGTJOCKLEK, ettRum.getPunkt().y()+ ettRum.getHöjd() + HALV_VÄGGTJOCKLEK);
-		Punkt SO = new Punkt(ettRum.getPunkt().x() + ettRum.getBredd() + HALV_VÄGGTJOCKLEK, ettRum.getPunkt().y() + ettRum.getHöjd() + HALV_VÄGGTJOCKLEK);
+		int x = ettRum.getPunkt().x();
+		int y = ettRum.getPunkt().y();
+		int bredd = ettRum.getBredd();
+		int höjd = ettRum.getHöjd();
 
-		drawThickLine(g, NV, NO, VÄGGTJOCKLEK, VÄGGFÄRG);
-		drawThickLine(g, NV, SV, VÄGGTJOCKLEK, VÄGGFÄRG);
-		drawThickLine(g, SV, SO, VÄGGTJOCKLEK, VÄGGFÄRG);
-		drawThickLine(g, NO, SO, VÄGGTJOCKLEK, VÄGGFÄRG);
+		Punkt NV = new Punkt(x , y);
+		Punkt NO = new Punkt(x + bredd, y);
+		Punkt SV = new Punkt(x, y + höjd);
+		Punkt SO = new Punkt(x + bredd, y + höjd);
 
+		drawThickLine(g, new Punkt(NV.x() - HALV_VÄGGTJOCKLEK, NV.y()), new Punkt(NO.x() + HALV_VÄGGTJOCKLEK, NO.y()), VÄGGTJOCKLEK, VÄGGFÄRG);
+		drawThickLine(g, new Punkt(NV.x(), NV.y() - HALV_VÄGGTJOCKLEK), new Punkt(SV.x(), SV.y() + HALV_VÄGGTJOCKLEK), VÄGGTJOCKLEK, VÄGGFÄRG);
+		drawThickLine(g, new Punkt(SV.x() - HALV_VÄGGTJOCKLEK, SV.y()), new Punkt(SO.x() + HALV_VÄGGTJOCKLEK, SO.y()), VÄGGTJOCKLEK, VÄGGFÄRG);
+		drawThickLine(g, new Punkt(NO.x(), NO.y() - HALV_VÄGGTJOCKLEK), new Punkt(SO.x(), SO.y() + HALV_VÄGGTJOCKLEK), VÄGGTJOCKLEK, VÄGGFÄRG);
 	}
 
 	private void ritaGångarFrånRum(Graphics g, Rum ettRum) {
-		g.setColor(GÅNGFÄRG);
-
+		drawThickLine(g, baspunkt(ettRum, Väderstreck.NORR), pivotpunkt(ettRum, Väderstreck.NORR), VÄGGTJOCKLEK, GÅNGFÄRG);
+		drawThickLine(g, baspunkt(ettRum, Väderstreck.ÖSTER), pivotpunkt(ettRum, Väderstreck.ÖSTER), VÄGGTJOCKLEK, GÅNGFÄRG);
+		drawThickLine(g, baspunkt(ettRum, Väderstreck.SÖDER), pivotpunkt(ettRum, Väderstreck.SÖDER), VÄGGTJOCKLEK, GÅNGFÄRG);
+		drawThickLine(g, baspunkt(ettRum, Väderstreck.VÄSTER), pivotpunkt(ettRum, Väderstreck.VÄSTER), VÄGGTJOCKLEK, GÅNGFÄRG);
 
 	}
 
 	private Punkt baspunkt(Rum ettRum, Väderstreck enRiktning) {
 		switch (enRiktning) {
-			case NORR: return new Punkt(ettRum.getPunkt().x() + ettRum.getBredd()/2, ettRum.getPunkt().y());
-			case ÖSTER: return new Punkt(ettRum.getPunkt().x() + ettRum.getBredd(), ettRum.getPunkt().y() + ettRum.getHöjd()/2);
-			case SÖDER: return new Punkt(ettRum.getPunkt().x() + ettRum.getBredd()/2, ettRum.getPunkt().y() + ettRum.getHöjd());
-			case VÄSTER: return new Punkt(ettRum.getPunkt().x(), ettRum.getPunkt().y()+ettRum.getHöjd()/2);
+			case NORR: return new Punkt(ettRum.getPunkt().x() + ettRum.getBredd()/2, ettRum.getPunkt().y() + HALV_VÄGGTJOCKLEK);
+			case ÖSTER: return new Punkt(ettRum.getPunkt().x() + ettRum.getBredd() - HALV_VÄGGTJOCKLEK, ettRum.getPunkt().y() + ettRum.getHöjd()/2);
+			case SÖDER: return new Punkt(ettRum.getPunkt().x() + ettRum.getBredd()/2, ettRum.getPunkt().y() + ettRum.getHöjd() - HALV_VÄGGTJOCKLEK);
+			case VÄSTER: return new Punkt(ettRum.getPunkt().x() + HALV_VÄGGTJOCKLEK, ettRum.getPunkt().y()+ettRum.getHöjd()/2);
 			default: return null;
 		}
 
 	}
 
 	private Punkt pivotpunkt(Rum ettRum, Väderstreck enRiktning) {
-		return null; /* endast här för att Eclipse inte ska klaga */
+		switch (enRiktning) {
+			case NORR: return new Punkt(ettRum.getPunkt().x() + ettRum.getBredd()/2, ettRum.getPunkt().y() - VÄGGTJOCKLEK);
+			case ÖSTER: return new Punkt(ettRum.getPunkt().x() + ettRum.getBredd() + VÄGGTJOCKLEK, ettRum.getPunkt().y() + ettRum.getHöjd()/2);
+			case SÖDER: return new Punkt(ettRum.getPunkt().x() + ettRum.getBredd()/2, ettRum.getPunkt().y() + ettRum.getHöjd() + VÄGGTJOCKLEK);
+			case VÄSTER: return new Punkt(ettRum.getPunkt().x() - VÄGGTJOCKLEK, ettRum.getPunkt().y()+ettRum.getHöjd()/2);
+			default: return null;
+		}
 	}
 
 	private void ritaGång(Graphics g, Gång enGång) {
-
 	}
 
 	private void ritaMarkörFörVarAnvändarenÄr(Graphics g) {
