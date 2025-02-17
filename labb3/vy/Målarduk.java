@@ -36,8 +36,15 @@ public class Målarduk extends JPanel {
 		// TODO: Lägg till kod som ritar ut en grafisk vy av enNivå.
 		//
 		for (int i = 0; i <= enNivå.getAllRoom().size()-1; i++) {
-			ritaRum(g, enNivå.getAllRoom().get(i));
-			ritaGångarFrånRum(g, enNivå.getAllRoom().get(i));
+			Rum rum = enNivå.getAllRoom().get(i);
+			ritaRum(g, rum);
+			ritaGångarFrånRum(g, rum);
+			for (Väderstreck riktning : Väderstreck.values()) {
+				if (rum.finnsUtgångÅt(riktning)) {
+					Gång gång = rum.gångenÅt(riktning);
+					ritaGång(g, gång);
+				}
+			}
 		}
 		// För att underlätta finns hjälpmetoder som ska skrivas klara. Studera
 		// noga bilderna i labbinstruktionen för att få fram formlerna för
@@ -95,6 +102,7 @@ public class Målarduk extends JPanel {
 	}
 
 	private void ritaGång(Graphics g, Gång enGång) {
+		drawThickLine(g, enGång.getFrån().getPunkt(), enGång.getTill().getPunkt(), VÄGGTJOCKLEK, GÅNGFÄRG);
 	}
 
 	private void ritaMarkörFörVarAnvändarenÄr(Graphics g) {
