@@ -110,7 +110,7 @@ public class Målarduk extends JPanel {
 
 	private void ritaMarkörFörVarAnvändarenÄr(Graphics g) {
 		Punkt mitten = new Punkt(enNivå.getRoom().getPunkt().x() + enNivå.getRoom().getBredd()/2, enNivå.getRoom().getPunkt().y()+enNivå.getRoom().getHöjd()/2);
-		fillCircle(g, mitten, HALV_VÄGGTJOCKLEK, VÄGGFÄRG);
+		fillCircle(g, mitten, HALV_VÄGGTJOCKLEK, ANVÄNDARFÄRG);
 
 	}
 }

@@ -2,6 +2,7 @@ package labb3.modell;
 
 import java.util.ArrayList;
 import java.util.Observable;
+import labb3.verktyg.Punkt;
 
 // TODO: Gör så att klassen Nivå ärver Observable i paketet java.util. 
 public class Nivå extends Observable {
@@ -21,14 +22,29 @@ public class Nivå extends Observable {
 		// undantag med lämpligt felmeddelande.
 
 		if (!levelRoom.contains(startrum)) {
-			throw new RuntimeException("Inget rum boss");
+			throw new RuntimeException("Start inte med hallå?");
 		}
 
 		// TODO: Kontrollera att inga rum överlappar varandra. Om det ändå är
 		// fallet, kasta undantag med lämpligt felmeddelande.
+		for (int i = 0; i < rum.size(); i++) {
+			Rum r1 = rum.get(i);
+			Punkt p1 = r1.getPunkt();
 
+			for (int j = i + 1; j < rum.size(); j++) {
+				Rum r2 = rum.get(j);
+				Punkt p2 = r2.getPunkt();
 
+				if (p1.x() < p2.x() + r2.getBredd() &&
+						p1.x() + r1.getBredd() > p2.x() &&
+						p1.y() < p2.y() + r2.getHöjd() &&
+						p1.y() + r1.getHöjd() > p2.y()) {
 
+					throw new RuntimeException("Rummen överlappar: " + r1 + " och " + r2);
+				}
+			}
+
+		}
 	}
 
 	// TODO: Skriv en instansmetod som returnerar alla rummen. Denna behöver
@@ -59,15 +75,10 @@ public class Nivå extends Observable {
 	public void hoppaÅt(Väderstreck väderstreck) {
 		if (this.userRoom.finnsUtgångÅt(väderstreck)) {
 			Gång gång = this.userRoom.gångenÅt(väderstreck);
-			Rum nyttRum = gång.getTill();
 
-			// Kontrollera att det inte är samma rum
-			if (nyttRum != this.userRoom) {
-				userRoom = nyttRum;
-				System.out.println("Du har hoppat till ett nytt rum.");
-			} else {
-				System.out.println("Du kan inte hoppa åt den riktningen, du är redan där.");
-			}
+			userRoom = gång.getTill();
+			System.out.println("Du har hoppat till ett nytt rum.");
+
 		} else {
 			System.out.println("Det finns ingen utgång åt den riktningen.");
 		}

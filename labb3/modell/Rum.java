@@ -78,8 +78,6 @@ public class Rum {
 		Gång gångFrånTill = new Gång(från, riktningUtUrFrån, till, riktningInITill);
 		Gång gångTillFrån = new Gång(till, riktningInITill, från, riktningUtUrFrån);
 
-
-		System.out.println("Kopplar gång från " + från + " till " + till);
 		från.gångar[riktningUtUrFrån.index()] = gångFrånTill;
 		till.gångar[riktningInITill.index()] = gångTillFrån;
 
