@@ -37,7 +37,13 @@ public class GUI extends JFrame implements Observer {
 		// rum och räkna ut vilken bredd och höjd målarduken måste ha(!)
 		// Annars går det också att dra till med en storlek och sen bara
 		// använda rum som säkert kan visas på målarduken.
-		målarduk.setPreferredSize(new Dimension(600, 600));
+		int bredd = 0;
+		int höjd = 0;
+		for (Rum rum : enNivå.getAllRoom()) {
+			bredd += rum.getBredd();
+			höjd += rum.getHöjd();
+		}
+		målarduk.setPreferredSize(new Dimension(bredd, höjd));
 
 		// TODO: Lägg till en KeyListener på målardiken, dvs en instans av
 		// typen Tangentbordslyssnare. Notera att lyssnaren vill ha enNivå

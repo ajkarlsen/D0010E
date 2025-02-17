@@ -49,9 +49,8 @@ public class Rum {
 	//
 	// finnsUtgångÅt(Väderstreck väderstreck)
 	public boolean finnsUtgångÅt(Väderstreck väderstreck) {
-		if (gångar[väderstreck.index()] == null) {
-			return false;
-		} return true;
+		boolean finns = gångar[väderstreck.index()] != null;
+		return finns;
 	}
 	//
 	// som ska kontrollera om det från ett rum finns en utgång åt visst
@@ -74,19 +73,20 @@ public class Rum {
 	// TODO: Skrivklar metoden nedan som kopplar ihop två rum med en gång.
 
 	public static void kopplaIhop(Rum från, Väderstreck riktningUtUrFrån,
-			Rum till, Väderstreck riktningInITill) {
-		Gång gång = new Gång(från, riktningUtUrFrån, till, riktningInITill);
-		från.gångar[riktningUtUrFrån.index()] = gång;
-		till.gångar[riktningInITill.index()] = gång;
+								  Rum till, Väderstreck riktningInITill) {
+
+		Gång gångFrånTill = new Gång(från, riktningUtUrFrån, till, riktningInITill);
+		Gång gångTillFrån = new Gång(till, riktningInITill, från, riktningUtUrFrån);
+
+
+		System.out.println("Kopplar gång från " + från + " till " + till);
+		från.gångar[riktningUtUrFrån.index()] = gångFrånTill;
+		till.gångar[riktningInITill.index()] = gångTillFrån;
+
 
 	}
 
-
 	public static void main(String[] args) {
-		Rum nyrumtest2 = new Rum(Color.BLUE, 100,75, 100, 100);
-		System.out.println(nyrumtest2.getGolvfärg());
-		System.out.println(nyrumtest2.getBredd());
-		System.out.println(nyrumtest2.getHöjd());
-		System.out.println(nyrumtest2.getPunkt());
+
 	}
 }

@@ -12,6 +12,7 @@ import javax.swing.*;
 
 import static labb3.GlobalaKonstanter.*;
 import static labb3.verktyg.Grafik.drawThickLine;
+import static labb3.verktyg.Grafik.fillCircle;
 
 // TODO: Ändra nästa rad så att en Målarduk "är-en" JPanel.
 public class Målarduk extends JPanel {
@@ -35,8 +36,7 @@ public class Målarduk extends JPanel {
 		super.paintComponent(g);
 		// TODO: Lägg till kod som ritar ut en grafisk vy av enNivå.
 		//
-		for (int i = 0; i <= enNivå.getAllRoom().size()-1; i++) {
-			Rum rum = enNivå.getAllRoom().get(i);
+		for (Rum rum : enNivå.getAllRoom()) {
 			ritaRum(g, rum);
 			ritaGångarFrånRum(g, rum);
 			for (Väderstreck riktning : Väderstreck.values()) {
@@ -46,6 +46,8 @@ public class Målarduk extends JPanel {
 				}
 			}
 		}
+		ritaMarkörFörVarAnvändarenÄr(g);
+
 		// För att underlätta finns hjälpmetoder som ska skrivas klara. Studera
 		// noga bilderna i labbinstruktionen för att få fram formlerna för
 		// bas- och pivotpunkternas koordinater. Använd ritmetoderna i klassen
@@ -73,11 +75,12 @@ public class Målarduk extends JPanel {
 	}
 
 	private void ritaGångarFrånRum(Graphics g, Rum ettRum) {
-		drawThickLine(g, baspunkt(ettRum, Väderstreck.NORR), pivotpunkt(ettRum, Väderstreck.NORR), VÄGGTJOCKLEK, GÅNGFÄRG);
-		drawThickLine(g, baspunkt(ettRum, Väderstreck.ÖSTER), pivotpunkt(ettRum, Väderstreck.ÖSTER), VÄGGTJOCKLEK, GÅNGFÄRG);
-		drawThickLine(g, baspunkt(ettRum, Väderstreck.SÖDER), pivotpunkt(ettRum, Väderstreck.SÖDER), VÄGGTJOCKLEK, GÅNGFÄRG);
-		drawThickLine(g, baspunkt(ettRum, Väderstreck.VÄSTER), pivotpunkt(ettRum, Väderstreck.VÄSTER), VÄGGTJOCKLEK, GÅNGFÄRG);
-
+		for (Väderstreck riktning : Väderstreck.values()) {
+			if (ettRum.finnsUtgångÅt(riktning)) {
+				drawThickLine(g, baspunkt(ettRum, riktning), pivotpunkt(ettRum, riktning), VÄGGTJOCKLEK, GÅNGFÄRG);
+				fillCircle(g, pivotpunkt(ettRum, riktning), HALV_VÄGGTJOCKLEK, GÅNGFÄRG);
+			}
+		}
 	}
 
 	private Punkt baspunkt(Rum ettRum, Väderstreck enRiktning) {
@@ -102,10 +105,12 @@ public class Målarduk extends JPanel {
 	}
 
 	private void ritaGång(Graphics g, Gång enGång) {
-		drawThickLine(g, enGång.getFrån().getPunkt(), enGång.getTill().getPunkt(), VÄGGTJOCKLEK, GÅNGFÄRG);
+		drawThickLine(g, pivotpunkt(enGång.getFrån(), enGång.getRiktningUtUrFrån()), pivotpunkt(enGång.getTill(), enGång.getRiktningInITill()), VÄGGTJOCKLEK, GÅNGFÄRG);
 	}
 
 	private void ritaMarkörFörVarAnvändarenÄr(Graphics g) {
+		Punkt mitten = new Punkt(enNivå.getRoom().getPunkt().x() + enNivå.getRoom().getBredd()/2, enNivå.getRoom().getPunkt().y()+enNivå.getRoom().getHöjd()/2);
+		fillCircle(g, mitten, HALV_VÄGGTJOCKLEK, VÄGGFÄRG);
 
 	}
 }

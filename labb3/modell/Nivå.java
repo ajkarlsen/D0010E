@@ -57,6 +57,21 @@ public class Nivå extends Observable {
 	// angränsande rum efter att användaren tryckt på en tangent.)
 
 	public void hoppaÅt(Väderstreck väderstreck) {
+		if (this.userRoom.finnsUtgångÅt(väderstreck)) {
+			Gång gång = this.userRoom.gångenÅt(väderstreck);
+			Rum nyttRum = gång.getTill();
 
+			// Kontrollera att det inte är samma rum
+			if (nyttRum != this.userRoom) {
+				userRoom = nyttRum;
+				System.out.println("Du har hoppat till ett nytt rum.");
+			} else {
+				System.out.println("Du kan inte hoppa åt den riktningen, du är redan där.");
+			}
+		} else {
+			System.out.println("Det finns ingen utgång åt den riktningen.");
+		}
+		setChanged();
+		notifyObservers();
 	}
 }

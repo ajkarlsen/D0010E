@@ -44,7 +44,7 @@ public class Tangentbordslyssnare implements KeyListener {
 				System.out.println("D");
 				break;
 			default:
-				System.out.println("Fel knapp Hugo");
+				System.out.println("Fel knapp");
 				break;
 		}
 	}
