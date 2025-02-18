@@ -4,30 +4,26 @@ import java.util.ArrayList;
 import java.util.Observable;
 import labb3.verktyg.Punkt;
 
-// TODO: Gör så att klassen Nivå ärver Observable i paketet java.util. 
 public class Nivå extends Observable {
 
-	// TODO: Lägg till tillståndsvariabler för att hålla reda på nivåns rum och
-	// i vilket rum som användaren "är".
-	private ArrayList<Rum> levelRoom;
+
+	private ArrayList<Rum> roomList;
 	private Rum userRoom;
 
 
 	public Nivå(Rum startrum, ArrayList<Rum> rum) {
-		// TODO: Kopiera in startrum och rum in i tillståndsvariablerna.
 		this.userRoom = startrum;
-		this.levelRoom = rum;
+		this.roomList = rum;
 
-		// TODO: Kontrollera att startrum finns med i rum. Om inte, kasta
-		// undantag med lämpligt felmeddelande.
 
-		if (!levelRoom.contains(startrum)) {
-			throw new RuntimeException("Start inte med hallå?");
+
+		if (!roomList.contains(startrum)) {
+			throw new RuntimeException("Startrum inte med");
 		}
 
-		// TODO: Kontrollera att inga rum överlappar varandra. Om det ändå är
-		// fallet, kasta undantag med lämpligt felmeddelande.
-		for (int i = 0; i < rum.size(); i++) {
+
+
+		for (int i = 0; i < rum.size(); i++) { // Loopar genom alla rum i listan och kollar att inget överlappar
 			Rum r1 = rum.get(i);
 			Punkt p1 = r1.getPunkt();
 
@@ -47,18 +43,14 @@ public class Nivå extends Observable {
 		}
 	}
 
-	// TODO: Skriv en instansmetod som returnerar alla rummen. Denna behöver
-	// Målarduk för att veta vilka rum som finns på nivån och som ska ritas ut.
 
 
-	public ArrayList<Rum> getAllRoom() {
-		return levelRoom;
+	public ArrayList<Rum> getAllRoom() { // Returnerar arraylist med alla rum
+		return roomList;
 	}
 
-	// TODO Skriv en instansmetod som returnerar en referens till det rum som
-	// användaren "är i".
 
-	public Rum getRoom() {
+	public Rum getRoom() { // Returnerar rummet användaren är i
 		return userRoom;
 	}
 
@@ -73,10 +65,9 @@ public class Nivå extends Observable {
 	// angränsande rum efter att användaren tryckt på en tangent.)
 
 	public void hoppaÅt(Väderstreck väderstreck) {
-		if (this.userRoom.finnsUtgångÅt(väderstreck)) {
-			Gång gång = this.userRoom.gångenÅt(väderstreck);
+		if (this.userRoom.finnsUtgångÅt(väderstreck)) { // Kollar att utgång finns sen hoppar genom att byta användarens rum
 
-			userRoom = gång.getTill();
+			userRoom =  this.userRoom.gångenÅt(väderstreck).getTill();
 			System.out.println("Du har hoppat till ett nytt rum.");
 
 		} else {

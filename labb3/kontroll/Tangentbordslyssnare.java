@@ -15,15 +15,7 @@ public class Tangentbordslyssnare implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO: Skriv klar denna metod som automatiskt anropas så snart
-		// användaren tryckt på en tangent på tangentbordet. Metoden ska
-		// översätta tangenten till ett väderstreck och sen anropa hoppaÅt i
-		// enNivå med detta väderstreck. Här ska
-		//
-		// w betyda "hoppa åt NORR",
-		// d betyda "hoppa åt ÖSTER",
-		// s betyda "hoppa åt SÖDER" och
-		// a betyda "hoppa åt VÄSTER".
+
 		int key = e.getKeyCode();
 
 		switch (key) {
@@ -44,7 +36,7 @@ public class Tangentbordslyssnare implements KeyListener {
 				System.out.println("D");
 				break;
 			default:
-				System.out.println("Fel knapp");
+				System.out.println("Använd WASD");
 				break;
 		}
 	}
