@@ -10,37 +10,53 @@ public class FIFO implements Queue {
         maxSize = 0;
     }
 
+    public void exception() {
+        if (elements.isEmpty()) {
+            throw new NoSuchElementException();
+        }
+    }
     @Override
     public void add(Object item) {
+        elements.add(item);
+        if (elements.size() > this.maxSize) {
+            this.maxSize = elements.size();
+        }
     }
 
     @Override
     public void removeFirst() {
+        exception();
+        elements.removeFirst();
     }
 
     @Override
     public Object first() {
+        exception();
         return elements.getFirst();
     }
 
     @Override
     public int maxSize() {
-        return 0;
+        return maxSize;
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return elements.isEmpty();
     }
 
     @Override
     public int size() {
-        return 0;
+        return elements.size();
     }
 
     @Override
     public String toString() {
-        return "";
+        String text = "Queue: ";
+        for (Object element: elements) {
+            text = text + "(" + String.valueOf(element) + ") ";
+        }
+        return text;
     }
 
     @Override
