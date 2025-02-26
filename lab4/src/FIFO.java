@@ -62,6 +62,7 @@ public class FIFO implements Queue {
     @Override
     public boolean equals(Object f) {
         FIFO other = (FIFO) f;
+        //Kommer casta ClassCastException ändå
 
         if (this.size() != other.size()) {
             return false;
