@@ -31,9 +31,9 @@ public class Målarduk extends JPanel {
 
 		for (Rum rum : enNivå.getAllRoom()) { // Loopar genom alla rum och ritar ut dem och bas-pivotpunkterna
 			ritaRum(g, rum);
-			ritaGångarFrånRum(g, rum);
 			for (Väderstreck riktning : Väderstreck.values()) { // Loopar genom alla väderstreck och ritar gång om en sådan finns
 				if (rum.finnsUtgångÅt(riktning)) {
+					ritaGångarFrånRum(g, rum);
 					Gång gång = rum.gångenÅt(riktning);
 					ritaGång(g, gång);
 				}

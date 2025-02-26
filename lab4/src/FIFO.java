@@ -61,6 +61,19 @@ public class FIFO implements Queue {
 
     @Override
     public boolean equals(Object f) {
-        return false;
+        FIFO other = (FIFO) f;
+
+        if (this.size() != other.size()) {
+            return false;
+        }
+        for (int i = 0; i < this.size(); i++) {
+            if (this.elements.get(i) == null && other.elements.get(i) != null) {
+                return false;
+            }
+            if (this.elements.get(i) != null && !this.elements.get(i).equals(other.elements.get(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 }
