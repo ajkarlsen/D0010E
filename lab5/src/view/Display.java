@@ -15,7 +15,7 @@ public class Display extends JLabel {
         setOpaque(true);  // Viktigt för att bakgrundsfärgen ska synas
 
         // Sätt ett tydligt typsnitt (Arial, fet stil, stor storlek)
-        setFont(new Font("Arial", Font.BOLD, 24));
+        setFont(new Font("Arial", Font.BOLD, 35));
 
         // Sätt en svart ram med 2 pixlar tjocklek
         Border border = BorderFactory.createLineBorder(Color.BLACK, 2);
