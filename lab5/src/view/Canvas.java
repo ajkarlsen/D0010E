@@ -4,7 +4,6 @@ import model.Situation;
 
 import javax.swing.*;
 import java.awt.*;
-import model.Situation;
 
 public class Canvas extends JPanel {
     final Display display;

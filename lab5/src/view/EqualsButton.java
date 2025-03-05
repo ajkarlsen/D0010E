@@ -3,9 +3,7 @@ package view;
 import model.Situation;
 import model.State;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 
 public class EqualsButton extends CalculatorButton {
     public EqualsButton(String text, Situation situation) {

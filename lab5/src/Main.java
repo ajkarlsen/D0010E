@@ -1,3 +1,5 @@
+import view.GUI;
+
 public class Main {
 
 

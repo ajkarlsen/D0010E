@@ -3,9 +3,7 @@ package view;
 import model.Situation;
 import model.State;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.util.function.IntBinaryOperator;
 
 
@@ -29,14 +27,14 @@ public class BinOpButton extends CalculatorButton {
                 if (situation.binaryOp != null) {
                     situation.binaryOp.setColor(Color.WHITE);
                 }
-                setColor(Color.CYAN);
+                setColor(color);
                 situation.binaryOp = this;
                 break;
             case OpReady:
                 if (situation.binaryOp != null) {
                     situation.binaryOp.setColor(Color.WHITE);
                 }
-                setColor(Color.CYAN);
+                setColor(color);
                 situation.binaryOp = this;
 
                 break;
@@ -45,7 +43,12 @@ public class BinOpButton extends CalculatorButton {
 
             case HasResult:
                 situation.leftOperand = Integer.parseInt(situation.display.getText());
+                if (situation.binaryOp != null) {
+                    situation.binaryOp.setColor(Color.WHITE);
+                }
+                setColor(color);
                 situation.binaryOp = this;
+
 
                 situation.state = State.OpReady;
         }

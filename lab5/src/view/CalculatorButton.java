@@ -5,14 +5,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.util.Scanner;
 
 
 public abstract class CalculatorButton extends JButton implements ActionListener {
 
     protected Situation situation;
+    final Color color = Color.CYAN;
 
-    public CalculatorButton(String text, Situation situation) {
+    protected CalculatorButton(String text, Situation situation) {
         super(text);
         this.situation = situation;
 
@@ -29,7 +29,7 @@ public abstract class CalculatorButton extends JButton implements ActionListener
 
     }
 
-    public void setColor(Color color) {
+    protected void setColor(Color color) {
         setBackground(color);
     }
 
@@ -38,6 +38,6 @@ public abstract class CalculatorButton extends JButton implements ActionListener
         transition();
     }
 
-    public abstract void transition();
+    protected abstract void transition();
 
 }

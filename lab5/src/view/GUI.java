@@ -1,4 +1,4 @@
-import view.Canvas;
+package view;
 
 import javax.swing.*;
 import java.awt.*;

@@ -3,9 +3,6 @@ package view;
 import model.Situation;
 import model.State;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-
 public class DigitButton extends CalculatorButton {
 
     public DigitButton(String text, Situation situation) {
