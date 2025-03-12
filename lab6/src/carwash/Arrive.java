@@ -16,6 +16,7 @@ public class Arrive extends Event {
 
     @Override
     public void Run(SimState state) {
+
         CarWashState carWashState = (CarWashState) state;
         CarQ queue = carWashState.getQueue();
 
@@ -23,7 +24,6 @@ public class Arrive extends Event {
         carWashState.updateQueueTime(this);
 
         carWashState.currentTime = this.time;
-        carWashState.observable(this);
 
         carcounter++;
         if (!queue.isFull()) {
@@ -34,10 +34,11 @@ public class Arrive extends Event {
                 System.out.println("Bil lagd i kön " + carWashState.currentTime);
             }
         } else {
-            carWashState.rejected++;
+            CarWashState.rejected++;
             System.out.println("Rejected " + carWashState.currentTime);
 
         }
+        carWashState.observable(this);
         carWashState.getArrivalTimes();
     }
 }

@@ -23,7 +23,11 @@ public class Simulator {
                 System.out.println("No more events in queue. Stopping simulation.");
                 break;
             }
-            event.Run(simState);
+            if (simState instanceof CarWashState) {
+                event.Run((CarWashState) simState);
+            } else {
+                event.Run(simState);
+            }
         }
         carWashView.endPrint();
     }

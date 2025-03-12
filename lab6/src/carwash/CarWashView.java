@@ -12,8 +12,14 @@ public class CarWashView extends SimView {
     CarWashState carWashState;
     Car car;
 
-    public CarWashView(SimState carWashState) {
-        super(carWashState);
+    public CarWashView(SimState simState) {
+        super(simState);
+        if (simState instanceof CarWashState) {
+            this.carWashState = (CarWashState) simState;
+        } else {
+            throw new IllegalArgumentException("CarWashView requires a CarWashState instance!");
+        }
+
     }
 
     public void firstPrint(){
@@ -27,10 +33,8 @@ public class CarWashView extends SimView {
         System.out.println("----------------------------------------");
     }
 
-
-
-    public void update(Observable obs, Object obj){
-
+    @Override
+    public void update(Observable o, Object obj){
         Event temp = (Event) obj;
 
         if (temp instanceof Arrive) {
