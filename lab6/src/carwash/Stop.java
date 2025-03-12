@@ -20,5 +20,7 @@ public class Stop extends Event {
         carWashState.updateQueueTime(this);
         carWashState.updateIdleTime(this);
 
+        carWashState.observable(this);
+
     }
 }

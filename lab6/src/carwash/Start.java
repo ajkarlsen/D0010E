@@ -13,5 +13,6 @@ public class Start extends Event{
         state.setOn(true);
         CarWashState carWashState = (CarWashState) state;
         carWashState.getArrivalTimes();
+        carWashState.observable(this);
     }
 }

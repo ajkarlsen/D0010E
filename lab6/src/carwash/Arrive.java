@@ -23,6 +23,8 @@ public class Arrive extends Event {
         carWashState.updateQueueTime(this);
 
         carWashState.currentTime = this.time;
+        carWashState.observable(this);
+
         carcounter++;
         if (!queue.isFull()) {
             queue.addCar(this.car);

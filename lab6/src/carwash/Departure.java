@@ -16,10 +16,13 @@ public class Departure extends Event {
     @Override
     public void Run(SimState state) {
         CarWashState carWashState = (CarWashState) state;
+
         carWashState.updateIdleTime(this);
         carWashState.updateQueueTime(this);
-        CarQ queue = carWashState.getQueue();
+
+        carWashState.observable(this);
         carWashState.currentTime = this.time;
+
         if (type == "fast"){
             CarWashState.freeFast++;
             System.out.println("Bil lämnar snabb");
