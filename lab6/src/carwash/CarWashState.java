@@ -18,8 +18,8 @@ public class CarWashState extends SimState {
 
     static double fastLowDist = 2.8;
     static double fastHighDist = 4.6;
-    static double slowLowDist = 4.5;
-    static double slowHighDist = 6.5;
+    static double slowLowDist = 3.5;
+    static double slowHighDist = 6.7;
 
     static int seed = 1234;
     static double lambda = 2.0;
@@ -56,7 +56,7 @@ public class CarWashState extends SimState {
     }
 
     void updateQueueTime(Event e) {
-        queueTime += (e.getTime() - prevQueueTime) * getQueue().q.size();
+        queueTime += (e.getTime() - prevQueueTime) * CarQ.q.size();
         prevQueueTime = e.getTime();
     }
 
@@ -65,6 +65,7 @@ public class CarWashState extends SimState {
     }
 
     public void scheduleArrival(double time, Car car) {
+
         eventQueue.addEvent(new Arrive(time, car));
     }
 
@@ -89,16 +90,15 @@ public class CarWashState extends SimState {
         Car nextCar = queue.getNextCar();
         if(nextCar != null){
             if (freeFast > 0 ){
-                System.out.println("Bil börjar tvättas snabbt " + currentTime);
-                freeFast--;
                 double washTime = fastWashTimeGenerator.next();
                 scheduleDeparture(nextCar, washTime, "fast");
+                freeFast--;
 
             } else if (freeSlow > 0) {
-                System.out.println("Bil tvättas långsamt" + currentTime);
-                freeSlow --;
                 double washTime = slowWashTimeGenerator.next();
                 scheduleDeparture(nextCar, washTime, "slow");
+                freeSlow --;
+
             }
         }
     }

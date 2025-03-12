@@ -4,7 +4,7 @@ import simulator.Event;
 import simulator.SimState;
 
 public class Departure extends Event {
-    private Car car;
+    protected Car car;
     private String type;
 
     public Departure(Car car,double time, String type) {
@@ -16,21 +16,21 @@ public class Departure extends Event {
     @Override
     public void Run(SimState state) {
         CarWashState carWashState = (CarWashState) state;
-
-        carWashState.updateIdleTime(this);
-        carWashState.updateQueueTime(this);
-
-        carWashState.observable(this);
         carWashState.currentTime = this.time;
 
-        if (type == "fast"){
+        // ✅ Se till att kön uppdateras korrekt innan vi ändrar storleken på maskinerna
+        if (type.equals("fast")) {  // 🔥 Använd .equals() istället för ==
             CarWashState.freeFast++;
-            System.out.println("Bil lämnar snabb");
-        } else if (type == "slow") {
+        } else if (type.equals("slow")) {
             CarWashState.freeSlow++;
-            System.out.println("Bil lämnar långsam");
         }
+
+        // ✅ Uppdatera kö-tid EFTER att bilen har lämnat kön, men INNAN en ny bil börjar tvättas
+        carWashState.updateQueueTime(this);
+        carWashState.observable(this);
+
         carWashState.washing();
 
     }
+
 }

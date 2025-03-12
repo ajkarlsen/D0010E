@@ -3,7 +3,7 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 
 public class CarQ {
-    protected Queue<Car> q;
+    public static Queue<Car> q;
 
     public CarQ() {
         this.q = new ArrayDeque<>();
