@@ -9,4 +9,5 @@ public abstract class SimView {
     }
 
     public abstract void firstPrint();
+    public abstract void endPrint();
 }

@@ -13,5 +13,12 @@ public class Stop extends Event {
     @Override
     public void Run(SimState state) {
         state.setOn(false);
+        CarWashState carWashState = (CarWashState) state;
+
+        carWashState.meanQueueTime(this);
+
+        carWashState.updateQueueTime(this);
+        carWashState.updateIdleTime(this);
+
     }
 }

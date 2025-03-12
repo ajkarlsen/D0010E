@@ -2,7 +2,7 @@ package carwash;
 
 public class CarFactory {
 
-    private static int carcounter = 0;
+    private static int carcounter = -1;
 
     public static Car createCar() {
         carcounter++;

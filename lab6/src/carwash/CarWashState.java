@@ -2,6 +2,7 @@ package carwash;
 
 import random.ExponentialRandomStream;
 import random.UniformRandomStream;
+import simulator.Event;
 import simulator.SimState;
 import simulator.EventQueue;
 import simulator.Simulator;
@@ -26,8 +27,14 @@ public class CarWashState extends SimState {
 
 
     static int maxQ = 5;
-    int rejected = 0;
+    static int rejected = 0;
     private EventQueue eventQueue;
+
+    static double queueTime = 0;
+    static double idleTime = 0;
+    private double prevQueueTime = 0;
+    private double prevCurrentTime = 0;
+    static double meanQueueTime;
 
     private UniformRandomStream fastWashTimeGenerator;
     private UniformRandomStream slowWashTimeGenerator;
@@ -43,12 +50,22 @@ public class CarWashState extends SimState {
         this.currentTime = 0.0;
     }
 
+    void updateIdleTime(Event e) {
+        idleTime += (e.getTime()-prevCurrentTime) * (freeFast + freeSlow);
+        prevCurrentTime = e.getTime();
+    }
 
+    void updateQueueTime(Event e) {
+        queueTime += (e.getTime() - prevQueueTime) * getQueue().q.size();
+        prevQueueTime = e.getTime();
+    }
+
+    void meanQueueTime(Event e) {
+        meanQueueTime = queueTime/(Arrive.carcounter-rejected);
+    }
 
     public void scheduleArrival(double time, Car car) {
         eventQueue.addEvent(new Arrive(time, car));
-        System.out.println(eventQueue.getEvents().peek());
-
     }
 
     public void getArrivalTimes() {

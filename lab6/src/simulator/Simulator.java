@@ -25,5 +25,6 @@ public class Simulator {
             }
             event.Run(simState);
         }
+        carWashView.endPrint();
     }
 }

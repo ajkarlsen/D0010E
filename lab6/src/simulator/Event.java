@@ -4,7 +4,7 @@ import java.sql.Time;
 
 public abstract class Event implements Comparable<Event> {
 
-    protected Double time;
+    public Double time;
 
     public Event(Double time) {
         this.time = time;

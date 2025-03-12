@@ -11,5 +11,7 @@ public class Start extends Event{
     @Override
     public void Run(SimState state) {
         state.setOn(true);
+        CarWashState carWashState = (CarWashState) state;
+        carWashState.getArrivalTimes();
     }
 }

@@ -5,6 +5,7 @@ import simulator.SimState;
 
 public class Arrive extends Event {
     private Car car;
+    static int carcounter = -1;
 
 
     public Arrive(double time, Car car) {
@@ -17,18 +18,24 @@ public class Arrive extends Event {
     public void Run(SimState state) {
         CarWashState carWashState = (CarWashState) state;
         CarQ queue = carWashState.getQueue();
+
+        carWashState.updateIdleTime(this);
+        carWashState.updateQueueTime(this);
+
         carWashState.currentTime = this.time;
+        carcounter++;
         if (!queue.isFull()) {
             queue.addCar(this.car);
             if (carWashState.hasFreeMachines()) {
                 carWashState.washing();
             } else {
-                System.out.println("Bil lagd i kön");
+                System.out.println("Bil lagd i kön " + carWashState.currentTime);
             }
         } else {
             carWashState.rejected++;
             System.out.println("Rejected " + carWashState.currentTime);
 
         }
+        carWashState.getArrivalTimes();
     }
 }
