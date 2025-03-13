@@ -9,6 +9,12 @@ import simulator.Simulator;
 
 import java.util.Queue;
 
+/**
+ * @author Alex Karlsen, Fabian Moestam, Sebastian Samuelsson
+ * Klassen håller koll på om biltvätten används och hur lång tid varje tvätt tar och vilken tid
+ * bilen lämnar tvätten samt anländer till tvätten
+ */
+
 public class CarWashState extends SimState {
     private CarQ queue = new CarQ();
     static int fast = 2;
@@ -23,7 +29,7 @@ public class CarWashState extends SimState {
 
     static int seed = 1234;
     static double lambda = 2.0;
-    private int id = 0;
+    private int id = -1;
 
 
     static int maxQ = 5;
@@ -40,8 +46,12 @@ public class CarWashState extends SimState {
     private UniformRandomStream slowWashTimeGenerator;
     private ExponentialRandomStream nextArrival;
 
-    public double currentTime;
+    protected double currentTime;
 
+    /**
+     * Konstruktor som tar fram slumtalen för tvätttider och ankomsttider.
+     * @param eventQueue
+     */
     public CarWashState(EventQueue eventQueue) {
         this.eventQueue = eventQueue;
         fastWashTimeGenerator = new UniformRandomStream(fastLowDist, fastHighDist, seed);  // För snabb tvätt
@@ -50,34 +60,62 @@ public class CarWashState extends SimState {
         this.currentTime = 0.0;
     }
 
+    /**
+     * Getter för bilkön
+     * @return
+     */
+    public CarQ getQueue() {
+        return queue;
+    }
+
+
+    /**
+     * Uppdaterar idletiden baserat på vilken tid eventet hänt.
+     * @param e
+     */
     void updateIdleTime(Event e) {
         idleTime += (e.getTime()-prevCurrentTime) * (freeFast + freeSlow);
         prevCurrentTime = e.getTime();
     }
 
+    /**
+     * Uppdaterar den totala kötiden
+     * @param e
+     */
     void updateQueueTime(Event e) {
         queueTime += (e.getTime() - prevQueueTime) * CarQ.q.size();
         prevQueueTime = e.getTime();
     }
 
-    void meanQueueTime(Event e) {
-        meanQueueTime = queueTime/(Arrive.carcounter-rejected);
+    /**
+     * Räknar ut snittet för kötiden
+     */
+    void meanQueueTime() {
+        meanQueueTime = queueTime/Arrive.carcounter;
     }
 
+    /**
+     * Skapar ett nytt arrival-event till eventkön
+     * @param time
+     * @param car
+     */
     public void scheduleArrival(double time, Car car) {
-
         eventQueue.addEvent(new Arrive(time, car));
     }
 
+    /**
+     * Tar fram tiden för nästa arrival och schemalägger den.
+     */
     public void getArrivalTimes() {
         double eventTime = nextArrival.next();
-        scheduleArrival(currentTime + eventTime, new Car(id));
         id++;
+        scheduleArrival(currentTime + eventTime, new Car(id));
     }
 
-    public CarQ getQueue() {
-        return queue;
-    }
+    /**
+     * Kollar om lediga maskiner finns
+     * @return
+     */
     public boolean hasFreeMachines() {
         if (freeFast != 0 || freeSlow != 0) {
             return true;
@@ -85,7 +123,9 @@ public class CarWashState extends SimState {
         return false;
     }
 
-
+    /**
+     * Tvättar bilar och schemalägger departure
+     */
     public void washing(){
         Car nextCar = queue.getNextCar();
         if(nextCar != null){
@@ -103,13 +143,14 @@ public class CarWashState extends SimState {
         }
     }
 
+    /**
+     * Skapar nya departure-event
+     * @param car
+     * @param washTime
+     * @param type
+     */
     public void scheduleDeparture(Car car, double washTime, String type){
         double departureTime = currentTime + washTime;
         eventQueue.addEvent(new Departure(car, departureTime, type));
     }
-
-
-
-
-
 }

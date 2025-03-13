@@ -3,19 +3,36 @@ package simulator;
 import carwash.CarWashView;
 import carwash.CarWashState;
 
+/**
+ * @author Alex Karlsen, Fabian Moestam, Sebastian Samuelsson
+ * Skapar instansmetoder av "EventQueue", "SimState" och "CarWashView" samt har metoden "run()" som startar
+ * hela simulationen genom att anropa på metoder från klasserna "EventQueue", "SimState" och "CarWashView".
+ */
+
 public class Simulator {
     private EventQueue eventQueue;
     private SimState simState;
-    private CarWashView carWashView;
+    private SimView simView;
 
-    public Simulator(EventQueue eventQueue, SimState simState, CarWashView carWashView) {
+    /**
+     * Klassens som tar följande parametrar
+     * @param eventQueue som är en kö för alla Event
+     * @param simState som ska hålla koll på simuleringens "nuvarande" status
+     * @param simView som är en abstrakt klass för att hålla koll på printklassen CarWashView
+     */
+
+    public Simulator(EventQueue eventQueue, SimState simState, SimView simView) {
         this.eventQueue = eventQueue;
         this.simState = simState;
-        this.carWashView = carWashView;
+        this.simView = simView;
     }
 
+    /**
+     * Run metod som kollar om det finns kommande Event
+     * och avbryter programmet om det inte finns fler kommande Event
+     */
     public void run() {
-        carWashView.firstPrint();
+        simView.firstPrint();
 
         while (simState.isOn()) {
             Event event = eventQueue.getEvent();
@@ -23,12 +40,8 @@ public class Simulator {
                 System.out.println("No more events in queue. Stopping simulation.");
                 break;
             }
-            if (simState instanceof CarWashState) {
-                event.Run((CarWashState) simState);
-            } else {
-                event.Run(simState);
-            }
+            event.Run(simState);
         }
-        carWashView.endPrint();
+        simView.endPrint();
     }
 }
